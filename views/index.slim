@@ -10,7 +10,7 @@ header
 		
 		Copy this bookmarklet to your browser and click it to receive the speakable link.
 		
-		<a href="javascript:(function(){ window.open('http://127.0.0.1:9292/create?uri='+encodeURI(location.href),'speakable','height=500,location=no,menubar=no,scrollbars=no,statusbar=no,toolbar=no,width=600'); })();">speakable</a>
+		<a href="javascript:(function(){ window.open('http://#{request.host} /create?uri='+encodeURI(location.href),'speakable','height=500,location=no,menubar=no,scrollbars=no,statusbar=no,toolbar=no,width=600'); })();">speakable</a>
 #choose.row
 	#colors
 		-Color.all.each do |col|
