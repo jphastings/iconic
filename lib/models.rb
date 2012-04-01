@@ -59,37 +59,36 @@ class Talk < ActiveRecord::Base
     colors = Color.count
     obs = SimpleObject.count
     
-    Talk.find_by_sql("SELECT  ref
-FROM    (SELECT  ref
-FROM    (
-      SELECT #{ref} AS ref
+    Talk.find_by_sql("
+    SELECT ref
+    FROM (
+      SELECT ref
+      FROM (
+        SELECT #{ref} AS ref
       ) q1
-WHERE   NOT EXISTS
-      (
-      SELECT  #{ref}
-      FROM    talks
-      WHERE   ((color_1 - 1)*#{obs*obs*colors} + (object_1-1) * #{obs*colors} + (color_2-1) * #{obs} + (object_2-1)) = #{ref}
+      WHERE NOT EXISTS (
+        SELECT  #{ref}
+        FROM    talks
+        WHERE   ((color_1 - 1)*#{obs*obs*colors} + (object_1-1) * #{obs*colors} + (color_2-1) * #{obs} + (object_2-1)) = #{ref}
       )
-UNION ALL
-SELECT  *
-FROM    (
-      SELECT  ((color_1 - 1)*#{obs*obs*colors} + (object_1-1) * #{obs*colors} + (color_2-1) * #{obs} + (object_2-1)) + 1 as ref
-      FROM    talks t
-      WHERE   NOT EXISTS
-              (
-              SELECT  1
-              FROM    talks ti
-              WHERE   ((ti.color_1-1)*#{obs*obs*colors} + (ti.object_1-1) * #{obs*colors} + (ti.color_2-1) * #{obs} + (ti.object_2-1)) = ((1-t.color_1)*#{obs*obs*colors} + (1-t.object_1) * #{obs*colors} + (1-t.color_2) * #{obs} + (t.object_2-1)) + 1
-              )
-      ORDER BY
-              ref
-      LIMIT 1
+      UNION ALL
+      SELECT  *
+      FROM (
+        SELECT ((color_1 - 1)*#{obs*obs*colors} + (object_1-1) * #{obs*colors} + (color_2-1) * #{obs} + (object_2-1)) + 1 as ref
+        FROM talks t
+        WHERE NOT EXISTS (
+          SELECT  1
+          FROM    talks ti
+          WHERE   ((ti.color_1-1)*#{obs*obs*colors} + (ti.object_1-1) * #{obs*colors} + (ti.color_2-1) * #{obs} + (ti.object_2-1)) = ((1-t.color_1)*#{obs*obs*colors} + (1-t.object_1) * #{obs*colors} + (1-t.color_2) * #{obs} + (t.object_2-1)) + 1
+        )
+        ORDER BY
+          ref
+        LIMIT 1
       ) q2
-ORDER BY
-      ref DESC
-)
-WHERE ref < #{obs*obs*colors*colors}
-LIMIT 1").first.ref
+      ORDER BY ref DESC
+    )
+    WHERE ref < #{obs*obs*colors*colors}
+    LIMIT 1").first.ref
   end  
 end
 
