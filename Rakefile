@@ -16,7 +16,6 @@ begin
 rescue LoadError
 end
 
-
 namespace :db do
   desc 'Migrate the database (destroys data)'
   task :migrate => :environment do
@@ -55,9 +54,7 @@ namespace :db do
   
   desc "Loads the next X talks into the queue to be used by new URLs"
   task :restock => :environment do
-    
-    
-    number_to_populate = 100
+    number_to_populate = 1000
     
     $stdout.puts "Hunting down #{number_to_populate} new talks" 
     
@@ -127,3 +124,5 @@ task :images => :environment do
     end
   end
 end
+
+task :cron => 'db:restock'
