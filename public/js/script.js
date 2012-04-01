@@ -44,7 +44,7 @@ $(document).ready(function() {
 				} else {
 					$('#results .title').removeClass('unknown')
 					if (data.title == '-') {
-						$('.results .title').fadeOut()
+						$('.results .title').hide()
 						$('.results .uri').toggleClass('major minor')
 					}
 				}
@@ -74,7 +74,7 @@ function getTitle(talk) {
 		'/title/'+talk
 	).success(function(data) {
 		if (data == null || data == '-') {
-			$('.results .title').fadeOut()
+			$('.results .title').hide()
 			$('.results .uri').toggleClass('major minor')
 		} else {
 			$('.results .title').text(data).removeClass('unknown')
