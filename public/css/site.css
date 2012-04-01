@@ -23,6 +23,10 @@
 	background:url('../img/bg.png');
 }
 
+.semi {
+	opacity:0.1;
+}
+
 .objects a img {
 	width:64px;
 	height:64px;
@@ -112,4 +116,12 @@
 	color:#888;
 	font-weight:normal;
 	font-style:italic;
+}
+
+#text {
+	height: 32px;
+	display: inline-block;
+	position: absolute;
+	font-size: 16px;
+	margin: 3px;
 }

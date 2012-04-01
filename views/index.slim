@@ -14,10 +14,12 @@ header
 #choose.row
 	#colors
 		-Color.all.each do |col|
-			a href="##{col.name}" class=col.name
+			a href="##{col.name}" class=col.name rel=col.name
+		input#text
 	#objects.objects
 		-SimpleObject.all.each do |obj|
-			a rel="tooltip" href="##{obj.name}" title=obj.name.capitalize
+			-names = (obj.alternates+[obj.name]).join(' ')
+			a href="##{obj.name}" rel=names title=obj.name.capitalize
 				img.nocolor rel="something" src="objects/#{obj.name}.png" /
 #output.row
 	#chosen.objects

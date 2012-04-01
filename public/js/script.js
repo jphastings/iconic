@@ -66,7 +66,40 @@ $(document).ready(function() {
 		return false;
 	})
 	
-	//$('[rel=tooltip]').tooltip()
+	$('#text').bind('keydown',function(e) {
+		if (!(e.ctrlKey || e.altKey || e.metaKey)) {
+			if (e.keyCode == 8) {
+				var choose = $('#text').val().substr(0,$('#text').val().length - 1);
+			} else if (e.keyCode <= 90 && e.keyCode >= 65) {
+				var choose = $('#text').val()+String.fromCharCode(e.keyCode+32);
+			} else {
+				return false;
+			}
+
+			var a = $('#output .describe .color_1').hasClass('set');
+			var b = $('#output .describe .object_1').hasClass('set');
+			var c = $('#output .describe .color_2').hasClass('set');
+			 
+			if (!a || b && !c) {
+				$('#colors a:not([rel*='+choose+'])').addClass('semi');
+				$('#colors a[rel*='+choose+']').removeClass('semi');
+				if($('#colors a[rel~='+choose+']').length == 1) {
+					$('#colors a[rel*='+choose+']').click()
+					e.preventDefault();
+					$('#text').val('')
+					$('#colors a').removeClass('semi')
+				}
+			} else {
+				$('#objects a:not([rel*='+choose+'])').hide();
+				if($('#objects a[rel~='+choose+']').show().length == 1) {
+					$('#objects a[rel*='+choose+']').click()
+					e.preventDefault();
+					$('#text').val('')
+					$('#objects a').show()
+				}
+			}
+		}
+	})
 })
 
 function getTitle(talk) {
