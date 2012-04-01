@@ -43,6 +43,10 @@ $(document).ready(function() {
 					getTitle(talk);
 				} else {
 					$('#results .title').removeClass('unknown')
+					if (data.title == '-') {
+						$('.results .title').fadeOut()
+						$('.results .uri').toggleClass('major minor')
+					}
 				}
 				
 				$('#results').slideDown()
