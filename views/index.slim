@@ -1,0 +1,38 @@
+header
+	h1 speakable
+	a#show_explain href="#explain" Explain
+	a#show_choose href="#choose" Choose
+		
+#explain.row
+	h2 Speakable URLs
+	markdown:
+		Want to be able to remember a long web link? Or speak it? This URL shortener will give you two coloured objects to remember - that's it!
+		
+		Copy this bookmarklet to your browser and click it to receive the speakable link.
+		
+		<a href="javascript:(function(){ window.open('http://127.0.0.1:9292/create?uri='+encodeURI(location.href),'speakable','height=500,location=no,menubar=no,scrollbars=no,statusbar=no,toolbar=no,width=600'); })();">speakable</a>
+#choose.row
+	#colors
+		-Color.all.each do |col|
+			a href="##{col.name}" class=col.name
+	#objects.objects
+		-SimpleObject.all.each do |obj|
+			a rel="tooltip" href="##{obj.name}" title=obj.name.capitalize
+				img.nocolor rel="something" src="objects/#{obj.name}.png" /
+#output.row
+	#chosen.objects
+		.object_1.nocolor
+			img src="img/unknown.png"
+		.object_2.nocolor
+			img src="img/unknown.png"
+	.describe
+		span.color.color_1
+		span.object.object_1
+		span.color.color_2
+		span.object.object_2
+	#results.results
+		a href="#"
+			.title.major.unknown checking&hellip;
+			.uri.minor
+
+#response=":("

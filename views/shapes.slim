@@ -1,0 +1,28 @@
+header
+	h1 logo
+#output
+	p="Visit #{request.host} and choose these symbols"
+	.objects.row
+		div class=@talk.color_1
+			img src=@talk.image_1 class=@talk.color_1 title=[@talk.color_1,@talk.object_1].join(' ')
+		div class=@talk.color_2
+			img src=@talk.image_2 class=@talk.color_2 title=[@talk.color_2,@talk.object_2].join(' ')
+	.describe
+		span class="color #{@talk.color_1}"=@talk.color_1
+		span.object=@talk.object_1
+		span class="color #{@talk.color_2}"=@talk.color_2
+		span.object=@talk.object_2
+	
+#details.results.row
+	p="To get to this website"
+	a href=@talk.url
+		-if @talk.title.nil?
+			.title.major.unknown checking&hellip;
+			javascript:
+				getTitle('#{[@talk.color_1.name,@talk.object_1.name,@talk.color_2.name,@talk.object_2.name].join(':')}')
+			.uri.minor=@talk.url
+		-elsif @talk.title == '-'
+			.uri.major=@talk.url
+		-else
+			.title.major=@talk.title
+			.uri.minor=@talk.url

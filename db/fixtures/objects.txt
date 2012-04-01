@@ -1,0 +1,60 @@
+acorn
+ambulance
+anchor
+apple
+bat
+bell
+bike bicycle cycle
+bird hummingbird
+blimp
+bomb
+bone
+book
+bulb
+burger
+butterfly
+cake
+camera
+car
+case
+cat
+cheese
+cherry
+cloud
+crayon
+cupcake
+diamond
+dog
+duck
+elephant
+fish
+flower
+glasses specs
+globe
+hammer
+heart love
+hotdog
+house home
+infinity
+kettle
+key
+leaf
+mail
+man
+mushroom
+pear
+phone mobile cellphone
+pipe
+pizza
+plane airplane
+ribbon
+shield
+star
+tape
+tractor
+train
+trolley
+tv
+van
+watch wristwatch clock timepiece
+wrench
