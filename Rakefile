@@ -51,7 +51,8 @@ namespace :db do
       $stdout.puts "#{n} new objects (with #{a+n} names) from #{i} rows"
     end
   end
-  
+
+=begin
   desc "Loads the next X talks into the queue to be used by new URLs"
   task :restock => :environment do
     number_to_populate = 1000
@@ -59,35 +60,32 @@ namespace :db do
     $stdout.puts "Hunting down #{number_to_populate} new talks" 
     
     maximums = [Color.count,SimpleObject.count]*2
+    maxall = maximums.inject(1){|a,b| a * b}
+    talks = Talk.count
     
     # Count number of Objects, only find unused objects if there isn't a full compliment
-    if Talk.count < maximums.inject(1){|a,b| a * b}
-      values = [
-        Talk.maximum(:color_1)  || 1,
-        Talk.maximum(:object_1) || 1,
-        Talk.maximum(:color_2)  || 1,
-        Talk.maximum(:object_2) || 1
-      ]
+    if talks < maximums.inject(1){|a,b| a * b}
       
-      while values.inject(1){|a,b| a * b} < maximums.inject(1){|a,b| a * b}
-        values[3] += 1
-        3.downto(0) do |i|
-          if values[i] > maximums[i]
-            break if i == 0
-            values[i-1] += 1
-            values[i] = 1
-          end
-        end
+      i = talks + 1
+      
+      while i < maxall
+        skew = (i * (maximums[0] + 2)) % maxall
+        
+        object_2 = (skew / maximums[1]).floor + 1
+        skew = skew % maximums[1]
+        color_2 = (skew / maximums[0]).floor + 1
+        skew = skew % maximums[0]
+        object_1 = (skew / maximums[1]).floor + 1
+        skew = skew % maximums[1]
+        color_1 = (skew / maximums[0]).floor + 1
         
         NextTalk.find_or_create_by_color_1_and_object_1_and_color_2_and_object_2(
-          values[0],
-          values[1],
-          values[2],
-          values[3]
+          color_1,object_1,color_2,object_2
         )
         
         number_to_populate -= 1
         break if number_to_populate <= 0
+        i += 1
       end
     end
 
@@ -105,6 +103,7 @@ namespace :db do
     
     $stdout.puts "All populated"
   end
+=end
 end
 
 task :environment do
