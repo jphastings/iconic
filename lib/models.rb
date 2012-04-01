@@ -88,7 +88,7 @@ class Talk < ActiveRecord::Base
       ORDER BY ref DESC
     ) as a
     WHERE ref < #{obs*obs*colors*colors}
-    LIMIT 1").first.ref
+    LIMIT 1").first.ref.to_i
   end  
 end
 
