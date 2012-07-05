@@ -1,5 +1,6 @@
-.row
-	h1 logo
+.row style="text-align:center;"
+	a href="/" target="_blank"
+		h1 Iconic
 #output.row
 	p="Visit #{request.host} and choose these symbols"
 	.objects
@@ -19,7 +20,7 @@
 		-if @talk.title.nil?
 			.title.major.unknown checking&hellip;
 			javascript:
-				getTitle('#{[@talk.color_1.name,@talk.object_1.name,@talk.color_2.name,@talk.object_2.name].join(':')}')
+				getTitle('#{[@talk.color_1.name,@talk.object_1.name,@talk.color_2.name,@talk.object_2.name].join('-')}')
 			.uri.minor=@talk.url
 		-elsif @talk.title == '-'
 			.uri.major=@talk.url

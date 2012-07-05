@@ -27,17 +27,19 @@ get '/create' do
   slim :shapes
 end
 
-get '/title/:descr' do
-  descr = params[:descr].split(':')
-  color_1  = Color.find_by_name(descr[0])
-  object_1 = SimpleObject.find_by_name(descr[1])
-  color_2  = Color.find_by_name(descr[2])
-  object_2 = SimpleObject.find_by_name(descr[3])
+get '/title/:color_1-:object_1-:color_2-:object_2' do
+  color_1  = Color.find_by_name(params[:color_1])
+  object_1 = SimpleObject.find_by_name(params[:object_1])
+  color_2  = Color.find_by_name(params[:color_2])
+  object_2 = SimpleObject.find_by_name(params[:object_2])
   
   talk = Talk.find_by_color_1_and_object_1_and_color_2_and_object_2(color_1,object_1,color_2,object_2)
   
   halt(404,"No such URI") if (talk.nil?)
   
+  p talk.url
+  p talk.title
+
   if talk.title.nil?
     u = URI.parse(talk.url)
   
@@ -48,23 +50,25 @@ get '/title/:descr' do
       begin
         Timeout.timeout(2) do
           Net::HTTP.start(u.host, u.port) do |http|
-            http.request_get(u.request_uri) do |res|
-              content = ""
-              res.read_body do |segment|
-                puts content << segment
-                if content.match(/<title>(.+?)<\/title>/)
-                  talk.title = $1.strip
-                  break
-                end
-                break if content.length > 4096
-              end
+            res = nil
+            
+            0.upto(3) do
+              res = http.request_get(u.request_uri)
+              
+              break if res.code == "200"
+            end
+
+            break if res.code == "301"
+
+            if res.body.match(/<title>(.+?)<\/title>/)
+              talk.title = $1.strip
             end
           end
         end
       rescue
       end
       
-      talk.title ||= '-'
+      talk.title ||= "#{File.basename(talk.url)} at #{u.host}"
       talk.save
     else
       halt(200,"Not a website")
@@ -96,4 +100,17 @@ get '/css/colors.css' do
   Color.all.each.collect do |c|
     ".#{c.name} {background-color:rgb(#{c.red},#{c.green},#{c.blue});color:rgb(#{c.red},#{c.green},#{c.blue});}"
   end
+end
+
+get '/:color_1-:object_1-:color_2-:object_2' do
+  color_1  = Color.find_by_name(params[:color_1])
+  object_1 = SimpleObject.find_by_name(params[:object_1])
+  color_2  = Color.find_by_name(params[:color_2])
+  object_2 = SimpleObject.find_by_name(params[:object_2])
+  
+  @talk = Talk.find_by_color_1_and_object_1_and_color_2_and_object_2(color_1,object_1,color_2,object_2)
+  
+  halt(404) if (@talk.nil?)
+
+  slim :shapes
 end

@@ -1,60 +1,95 @@
-acorn
+Machinery
 ambulance
-anchor
-apple
-bat
-bell
-bike bicycle cycle
-bird hummingbird
 blimp
+boat yacht ship
 bomb
-bone
-book
 bulb
-burger
-butterfly
-cake
 camera
 car
-case
+gameboy
+
+Animals
+bat
+bird hummingbird
+butterfly
 cat
-cheese
-cherry
-cloud
-crayon
-cupcake
-diamond
 dog
+dolphin
 duck
 elephant
 fish
-flower
+
+Home
+book
+bell
+bike bicycle cycle
+
+Food
+burger
+cake
+cheese
+apple
+cherry
+cupcake
+
+People
+case
+anchor
+crayon
+diamond
+ear
+bone
+eye
 glasses specs
-globe
+guitar
 hammer
+hat
 heart love
+
+Nature
+acorn
+clover shamrock
+cloud
+flower
+globe
+
 hotdog
 house home
 infinity
 kettle
 key
 leaf
+leaf
 mail
 man
+moon crescent
 mushroom
 pear
+pencil
 phone mobile cellphone
+pig
 pipe
 pizza
 plane airplane
 ribbon
+rocket
+sax
 shield
+snowflake
 star
-tape
+tape cassette
 tractor
 train
+tree
 trolley
 tv
 van
 watch wristwatch clock timepiece
+woman girl
 wrench
+mug cup
+torch lamp flashlight
+cow
+sword
+strawberry
+music notes
