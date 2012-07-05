@@ -95,7 +95,7 @@ $(document).ready(function() {
 
 	$('#demo').click(function(e){
 		e.preventDefault();
-
+		reset();
 		$.each("greymanblackcherry".split(''),function(i,letter) {
 			$('#text').queue(function() {
 				$('#text').val($('#text').val() + letter).trigger(jQuery.Event('input'))
