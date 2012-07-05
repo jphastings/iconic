@@ -1,5 +1,8 @@
 .output .describe span {
 	background:transparent !important;
+}
+
+#output .describe span {
 	display:block;
 }
 
@@ -215,4 +218,12 @@ h2 {
 
 #text.nomatches {
 	color:red;
+}
+
+.fullsize .objects {
+	height:256px;
+}
+
+.fullsize {
+	font-size:30px;
 }

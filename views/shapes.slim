@@ -1,8 +1,11 @@
 .row style="text-align:center;"
 	a href="/" target="_blank"
 		h1 Iconic
-#output.row
-	p="Visit #{request.host} and choose these symbols"
+.fullsize.output.row
+	p
+		="Visit "
+		a href="/" target="_blank"=request.host
+		=" and choose these symbols"
 	.objects
 		div class=@talk.color_1
 			img src=@talk.image_1 class=@talk.color_1 title=[@talk.color_1,@talk.object_1].join(' ')
@@ -10,8 +13,11 @@
 			img src=@talk.image_2 class=@talk.color_2 title=[@talk.color_2,@talk.object_2].join(' ')
 	.describe
 		span class="color #{@talk.color_1}"=@talk.color_1
+		=" "
 		span.object=@talk.object_1
+		=" "
 		span class="color #{@talk.color_2}"=@talk.color_2
+		=" "
 		span.object=@talk.object_2
 	
 #details.results.row
