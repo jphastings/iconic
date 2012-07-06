@@ -1,3 +1,4 @@
+// TODO: undo colours / go back after success
 $(document).ready(function() {
 	$('#colors a').click(function() {
 		var color = $(this).attr('href').substr(1);
@@ -95,6 +96,7 @@ $(document).ready(function() {
 
 	$('#demo').click(function(e){
 		e.preventDefault();
+
 		reset();
 		$.each("greymanblackcherry".split(''),function(i,letter) {
 			$('#text').queue(function() {
@@ -159,8 +161,8 @@ function reset() {
 	$('#output .describe span').addClass('nocolor')
 	$('#output .describe .color_1').attr('class','color color_1 nocolor')
 	$('#output .describe .color_2').attr('class','color color_2 nocolor')
-	$('#output .describe .object_1').attr('class','color object_1 nocolor')
-	$('#output .describe .object_2').attr('class','color object_2 nocolor')
+	$('#output .describe .object_1').attr('class','object object_1 nocolor')
+	$('#output .describe .object_2').attr('class','object object_2 nocolor')
 	$('#objects img').attr('class','nocolor')
 	$('#results').fadeOut();
 }
