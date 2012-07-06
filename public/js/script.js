@@ -163,6 +163,6 @@ function reset() {
 	$('#output .describe .color_2').attr('class','color color_2 nocolor')
 	$('#output .describe .object_1').attr('class','object object_1 nocolor')
 	$('#output .describe .object_2').attr('class','object object_2 nocolor')
-	$('#objects img').attr('class','nocolor')
+	$('#objects a').attr('class','nocolor')
 	$('#results').fadeOut();
 }
