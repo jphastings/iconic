@@ -36,27 +36,27 @@ get '/suggest/:color_1-:object_1-:color_2-:object_2' do
   }.delete_if {|k,v| v.nil?}
 
   if query.keys.include?(:color_1) and !query.keys.include?(:object_1)
-    halt(200,{:object_1 => Talk.all(:conditions => query,:group => :object_1).collect{|t| t.object_1.name}}.to_json)
+    halt(200,{:object_1 => Talk.all(:select => :object_1, :conditions => query,:group => :object_1).collect{|t| t.object_1.name}}.to_json)
   end
 
   if !query.keys.include?(:color_1) and query.keys.include?(:object_1)
-    halt(200,{:color_1  => Talk.all(:conditions => query,:group => :color_1).collect{|t| t.color_1.name}}.to_json)
+    halt(200,{:color_1  => Talk.all(:select => :color_1, :conditions => query,:group => :color_1).collect{|t| t.color_1.name}}.to_json)
   end
 
   if query.keys.include?(:color_1) and query.keys.include?(:object_1)
     if !query.keys.include?(:color_2) and !query.keys.include?(:object_2)
       halt(200,{
-        :color_2  => Talk.all(:conditions => query,:group => :color_2).collect{|t| t.color_2.name},
-        :object_2 => Talk.all(:conditions => query,:group => :object_2).collect{|t| t.object_2.name}
+        :color_2  => Talk.all(:select => :color_2, :conditions => query,:group => :color_2).collect{|t| t.color_2.name},
+        :object_2 => Talk.all(:select => :object_2, :conditions => query,:group => :object_2).collect{|t| t.object_2.name}
       }.to_json)
     end
 
     if query.keys.include?(:color_2) and !query.keys.include?(:object_2)
-      halt(200,{:object_2 => Talk.all(:conditions => query,:group => :object_2).collect{|t| t.object_2.name}}.to_json)
+      halt(200,{:object_2 => Talk.all(:select => :object_2, :conditions => query,:group => :object_2).collect{|t| t.object_2.name}}.to_json)
     end
 
     if !query.keys.include?(:color_2) and query.keys.include?(:object_2)
-      halt(200,{:color_2  => Talk.all(:conditions => query,:group => :color_2).collect{|t| t.color_2.name}}.to_json)
+      halt(200,{:color_2  => Talk.all(:select => :color_2, :conditions => query,:group => :color_2).collect{|t| t.color_2.name}}.to_json)
     end
   end
 
