@@ -1,38 +1,25 @@
-Machinery
-ambulance
 blimp
 boat yacht ship
 bomb
 bulb
-camera
 car
 gameboy
-
-Animals
 bat
 bird hummingbird
-butterfly
 cat
 dog
 dolphin
 duck
-elephant
 fish
-
-Home
 book
 bell
 bike bicycle cycle
-
-Food
 burger
 cake
 cheese
 apple
 cherry
 cupcake
-
-People
 case
 anchor
 crayon
@@ -45,20 +32,15 @@ guitar
 hammer
 hat
 heart love
-
-Nature
 acorn
 clover shamrock
 cloud
 flower
 globe
-
 hotdog
 house home
-infinity
 kettle
 key
-leaf
 leaf
 mail
 man
@@ -75,7 +57,6 @@ ribbon
 rocket
 sax
 shield
-snowflake
 star
 tape cassette
 tractor
@@ -91,5 +72,4 @@ mug cup
 torch lamp flashlight
 cow
 sword
-strawberry
 music notes

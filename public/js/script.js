@@ -3,7 +3,7 @@ $(document).ready(function() {
 	$('#colors a').click(function() {
 		var color = $(this).attr('href').substr(1);
 		$('#objects a').attr('class','nocolor '+color)
-		
+
 		if ($('#output .describe .object_1').hasClass('set') && $('#output .describe .color_1').hasClass('set')) {
 			// Target second object for colour change
 			$('#output .describe .color_2').attr('class','color_2 color '+color).text(color)
@@ -21,10 +21,13 @@ $(document).ready(function() {
 			
 			$('#output .describe .color_1').addClass('set')
 
-			/*if ($('#output .describe .object_1').hasClass('set')) {
+			if ($('#output .describe .object_1').hasClass('set')) {
 				$('#objects a img').attr('class','nocolor')
-			}*/
+			}
 		}
+
+		makeSuggestions();
+
 		return false;
 	})
 	
@@ -47,6 +50,9 @@ $(document).ready(function() {
 
 			$('#output .describe .object_1').addClass('set')
 		}
+
+		makeSuggestions();
+
 		return false;
 	})
 	
@@ -109,7 +115,7 @@ $(document).ready(function() {
 })
 
 function completeInput() {
-	var talk = $.makeArray($('#output .describe span').map(function(i,w) {return $(w).text()})).join(':');
+	var talk = $.makeArray($('#output .describe span').map(function(i,w) {return $(w).text()})).join('-');
 	$.getJSON('/discover/'+talk).success(function(data) {
 		$('#colors,#objects').slideUp()
 		
@@ -137,6 +143,25 @@ function completeInput() {
 	})
 }
 
+function makeSuggestions() {
+	var talk = $.makeArray($('#output .describe span').map(function(i,w) {return $(w).text()})).join('-');
+
+	$.getJSON('/suggest/'+talk).success(function(data) {
+		for(section in data) {
+			switch(section.split('_')[0]) {
+				case 'object':
+					$('#objects a:not([rel="'+data[section].join('"],[rel="')+'"])').hide();
+					$('#objects a[rel="'+data[section].join('"],#objects a[rel="')+'"]').show();
+					break;
+				case 'color':
+					$('#colors a:not([rel="'+data[section].join('"],[rel="')+'"])').addClass('semi');
+					$('#colors a[rel="'+data[section].join('"],#objects a[rel="')+'"]').removeClass('semi');
+					break;
+			}
+		}
+	})
+}
+
 function getTitle(talk) {
 	$.getJSON(
 		'/title/'+talk
@@ -154,6 +179,8 @@ function getTitle(talk) {
 }
 
 function reset() {
+	$('#objects a').show();
+	$('#colors a').removeClass('semi');
 	$('#output .describe .color').removeClass('set').text('colour')
 	$('#output .describe .object').removeClass('set').text('object')
 	$('#chosen .object_1 img,#chosen .object_2 img').attr('src','img/unknown.png')

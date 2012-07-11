@@ -31,10 +31,10 @@ class Talk < ActiveRecord::Base
       obs = SimpleObject.count
       
       # Take a random number of all the possible ones (starts at 0)
-      p guess = Random.rand(colors*obs*colors*obs)
+      guess = Random.rand(colors*obs*colors*obs)
       
       # Find the next available talk from the guessed number up
-      p ref = find_next_free_ref(guess)
+      ref = find_next_free_ref(guess)
 
       # Assign to this talk
       self[:color_1] = (ref / (obs*obs*colors)).floor + 1

@@ -124,4 +124,4 @@ task :images => :environment do
   end
 end
 
-task :cron => 'db:restock'
+#task :cron => 'db:restock'

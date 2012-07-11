@@ -27,6 +27,44 @@ get '/create' do
   slim :shapes
 end
 
+get '/suggest/:color_1-:object_1-:color_2-:object_2' do
+  query = {
+    :color_1  => Color.find_by_name(params[:color_1]),
+    :object_1 => SimpleObject.find_by_name(params[:object_1]),
+    :color_2  => Color.find_by_name(params[:color_2]),
+    :object_2 => SimpleObject.find_by_name(params[:object_2])
+  }.delete_if {|k,v| v.nil?}
+
+  if query.keys.include?(:color_1) and !query.keys.include?(:object_1)
+    halt(200,{:object_1 => Talk.all(:conditions => query,:group => :object_1).collect{|t| t.object_1.name}}.to_json)
+  end
+
+  if !query.keys.include?(:color_1) and query.keys.include?(:object_1)
+    halt(200,{:color_1  => Talk.all(:conditions => query,:group => :color_1).collect{|t| t.color_1.name}}.to_json)
+  end
+
+  if query.keys.include?(:color_1) and query.keys.include?(:object_1)
+    if !query.keys.include?(:color_2) and !query.keys.include?(:object_2)
+      halt(200,{
+        :color_2  => Talk.all(:conditions => query,:group => :color_2).collect{|t| t.color_2.name},
+        :object_2 => Talk.all(:conditions => query,:group => :object_2).collect{|t| t.object_2.name}
+      }.to_json)
+    end
+
+    if query.keys.include?(:color_2) and !query.keys.include?(:object_2)
+      halt(200,{:object_2 => Talk.all(:conditions => query,:group => :object_2).collect{|t| t.object_2.name}}.to_json)
+    end
+
+    if !query.keys.include?(:color_2) and query.keys.include?(:object_2)
+      halt(200,{:color_2  => Talk.all(:conditions => query,:group => :color_2).collect{|t| t.color_2.name}}.to_json)
+    end
+  end
+
+  query.to_json
+end
+
+
+
 get '/title/:color_1-:object_1-:color_2-:object_2' do
   color_1  = Color.find_by_name(params[:color_1])
   object_1 = SimpleObject.find_by_name(params[:object_1])
@@ -36,9 +74,6 @@ get '/title/:color_1-:object_1-:color_2-:object_2' do
   talk = Talk.find_by_color_1_and_object_1_and_color_2_and_object_2(color_1,object_1,color_2,object_2)
   
   halt(404,"No such URI") if (talk.nil?)
-  
-  p talk.url
-  p talk.title
 
   if talk.title.nil?
     u = URI.parse(talk.url)
@@ -79,7 +114,7 @@ get '/title/:color_1-:object_1-:color_2-:object_2' do
 end
 
 get '/discover/:descr' do
-  descr = params[:descr].split(':')
+  descr = params[:descr].split('-')
   color_1  = Color.find_by_name(descr[0])
   object_1 = SimpleObject.find_by_name(descr[1])
   color_2  = Color.find_by_name(descr[2])
