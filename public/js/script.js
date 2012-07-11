@@ -1,5 +1,7 @@
 // TODO: undo colours / go back after success
 $(document).ready(function() {
+	$('#reset').click(reset);
+
 	$('#colors a').click(function() {
 		var color = $(this).attr('href').substr(1);
 		$('#objects a').attr('class','nocolor '+color)
@@ -179,7 +181,7 @@ function getTitle(talk) {
 }
 
 function reset() {
-	$('#objects a').show();
+	$('#objects a,#colors,#objects').show();
 	$('#colors a').removeClass('semi');
 	$('#output .describe .color').removeClass('set').text('colour')
 	$('#output .describe .object').removeClass('set').text('object')

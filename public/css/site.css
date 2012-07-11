@@ -228,3 +228,12 @@ h2 {
 .fullsize {
 	font-size:30px;
 }
+
+#reset {
+	color:#bbb;
+}
+
+#reset:hover {
+	color:#c00;
+	text-decoration:underline;
+}
