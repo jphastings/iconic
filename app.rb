@@ -115,7 +115,7 @@ get '/title/:color_1-:object_1-:color_2-:object_2' do
       rescue
       end
       
-      talk.title ||= "#{u.path} at #{u.host}"
+      talk.title ||= (u.path == "/" or u.path == '') ? u.host :  "#{u.path} at #{u.host}"
       talk.save
     else
       halt(200,"Not a website")
