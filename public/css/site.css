@@ -279,3 +279,22 @@ h2 {
 	background-color: #DDF;
 	display:none;
 }
+
+ul.shh {
+	padding:0;
+}
+
+ul.shh li {
+	display:inline;
+	margin:5px;
+}
+
+ul.shh li a {
+	color:#aaa;
+	text-decoration:none;
+}
+
+ul.shh li a:hover {
+	color:#555;
+	text-decoration: underline;
+}

@@ -4,12 +4,20 @@
 		
 #explain.row
 	markdown:
-		Iconic lets you share links with pictures, rather than text. <a href="#demo" id="demo">Click for a demo</a>
+		Turn long web addresses into links you can speak. <a href="#demo" id="demo">Click here for a demo</a>
 
-		Drag this link to your bookmark bar: <a href="javascript:(function(){ window.open('http://#{request.host}/create?uri='+encodeURIComponent(location.href),'iconic','height=500,location=no,menubar=no,scrollbars=no,statusbar=no,toolbar=no,width=773'); })();">make it iconic</a> to use on other sites<br/>or <a href="">click here</a> to enter a URL and make one now.
+		Drag this link to your bookmark bar: <a href="javascript:(function(){ window.open('http://#{request.host}/create?uri='+encodeURIComponent(location.href),'iconic','height=500,location=no,menubar=no,scrollbars=no,statusbar=no,toolbar=no,width=773'); })();">make it iconic</a> and click it when you want to share the site you’re browsing.
+
+	ul.shh
+		li
+			a href="http://github.com/jphastings/iconic/issues" report a bug
+		li
+			a href="http://github.com/jphastings/iconic" see the code
+		li
+			a href="http://github.com/jphastings/iconic#readme" about
 		
 .row
-	input#text placeholder="search objects or type directly"
+	input#text placeholder="type here, or click the objects below"
 	#typed
 #choose.row
 	#colors
