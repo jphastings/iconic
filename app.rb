@@ -20,8 +20,8 @@ get '/create' do
   
   halt(403,"You may not store javascript like that here") if u.scheme == 'javascript'
   halt(414,"That URI is too long") if u.to_s.length > 1024
-  
-  @talk = Talk.find_or_create_by_url(u.to_s)
+
+  @talk = Talk.find_or_create_by_url(url)
   @talk.save
   
   slim :shapes
@@ -37,6 +37,7 @@ get '/suggest/:color_1-:object_1-:color_2-:object_2' do
 
   if query.keys.length == 0
     talk = Talk.first(:order => "RANDOM()")
+    halt 404,'[]' if talk.nil?
     halt(200,[
       talk.color_1.name,
       talk.object_1.name,

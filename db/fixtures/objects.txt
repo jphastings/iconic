@@ -44,7 +44,6 @@ guitar
 hammer
 hat
 heart love
-helmet
 hotdog
 house home
 jug pitcher

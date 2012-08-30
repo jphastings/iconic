@@ -146,7 +146,7 @@ $(document).ready(function() {
 			$('#text').queue(function() {
 				$('#text').val($('#text').val() + letter).trigger(jQuery.Event('input'))
 				$(this).dequeue();
-			}).delay(700)
+			}).delay(500)
 		})
 
 	})

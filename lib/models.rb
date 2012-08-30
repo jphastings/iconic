@@ -97,6 +97,3 @@ end
 class AlternateName < ActiveRecord::Base
   belongs_to :simple_object
 end
-
-class NextTalk < ActiveRecord::Base
-end

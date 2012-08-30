@@ -147,6 +147,17 @@ a img {
 
 #results {
 	display:none;
+	text-align: center;
+}
+
+#results a {
+	text-decoration: none;
+	padding: 10px;
+	color:#444;
+}
+
+#results a:hover {
+	text-decoration:underline;
 }
 
 #response {
@@ -183,7 +194,7 @@ a img {
 #text {
 	height: 32px;
 	display: block;
-	width:500px;
+	width:575px;
 	max-width:90%;
 	font-size: 16px;
 	margin: 5px 90px 5px 0;
