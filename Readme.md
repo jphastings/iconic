@@ -1,3 +1,4 @@
+<img src="http://i.imgur.com/aIFiV.png" style="float:right"/>
 Iconic
 ======
 
