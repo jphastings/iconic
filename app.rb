@@ -21,7 +21,7 @@ get '/create' do
   halt(403,"You may not store javascript like that here") if u.scheme == 'javascript'
   halt(414,"That URI is too long") if u.to_s.length > 1024
 
-  @talk = Talk.find_or_create_by_url(url)
+  @talk = Talk.find_or_create_by_url(u.to_s)
   @talk.save
   
   slim :shapes
