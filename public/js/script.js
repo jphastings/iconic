@@ -188,12 +188,12 @@ function makeSuggestions() {
 		for(section in data) {
 			switch(section.split('_')[0]) {
 				case 'object':
-					$('#objects a:not([rel~="'+$.makeArray(data[section]).join('"],[rel=~"')+'"])').css('opacity','0.1');
-					$('#objects a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel=~"')+'"]').css('opacity','1.0');
+					$('#objects a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').css('opacity','0.1');
+					$('#objects a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel~="')+'"]').css('opacity','1.0');
 					break;
 				case 'color':
-					$('#colors a:not([rel~="'+$.makeArray(data[section]).join('"],[rel=~"')+'"])').css('opacity','0.1');
-					$('#colors a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel=~"')+'"]').css('opacity','1.0');
+					$('#colors a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').css('opacity','0.1');
+					$('#colors a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel~="')+'"]').css('opacity','1.0');
 					break;
 			}
 		}
