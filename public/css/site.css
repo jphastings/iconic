@@ -147,16 +147,18 @@ a img {
 
 #results {
 	display:none;
+}
+.results {
 	text-align: center;
 }
 
-#results a {
+.results a {
 	text-decoration: none;
 	padding: 10px;
 	color:#444;
 }
 
-#results a:hover {
+.results a:hover {
 	text-decoration:underline;
 }
 
