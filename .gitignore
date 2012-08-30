@@ -1,0 +1,13 @@
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+*.db
+
+# OS generated files #
+######################
+*.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db

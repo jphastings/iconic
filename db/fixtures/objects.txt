@@ -1,51 +1,64 @@
+acorn
+anchor
+apple
+axe
+bat
+bear teddy
+bell
+bike bicycle cycle
+bin trash
+bird hummingbird
 blimp
 boat yacht ship
 bomb
+bone
+book
+box parcel
 bulb
+burger hamburger
+cake
+camera
 car
-gameboy
-bat
-bird hummingbird
+case suitcase briefcase
 cat
+cheese
+cherry
+cloud
+clover shamrock
+cow
+crayon
+diamond
 dog
 dolphin
 duck
-fish
-book
-bell
-bike bicycle cycle
-burger
-cake
-cheese
-apple
-cherry
-cupcake
-case
-anchor
-crayon
-diamond
 ear
-bone
 eye
+fire
+fish
+flower
+foot
+gameboy
 glasses specs
+globe earth
 guitar
 hammer
 hat
 heart love
-acorn
-clover shamrock
-cloud
-flower
-globe
+helmet
 hotdog
 house home
+jug pitcher
 kettle
 key
 leaf
+lighter
 mail
 man
 moon crescent
+mug cup
 mushroom
+music notes
+padlock lock
 pear
 pencil
 phone mobile cellphone
@@ -57,19 +70,20 @@ ribbon
 rocket
 sax
 shield
+shoe
+snowflake
 star
+sun
+sword
 tape cassette
+torch lamp flashlight
 tractor
 train
 tree
 trolley
-tv
+tv television
 van
+wallet
 watch wristwatch clock timepiece
 woman girl
 wrench
-mug cup
-torch lamp flashlight
-cow
-sword
-music notes

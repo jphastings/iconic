@@ -10,17 +10,20 @@
 		
 .row
 	input#text placeholder="search objects or type directly"
+	#typed
 #choose.row
 	#colors
 		-Color.all.each do |col|
 			a href="##{col.name}" class=col.name rel=col.name
 	#objects.objects
-		-SimpleObject.all.each do |obj|
+		-SimpleObject.all(:order => 'name ASC').each do |obj|
 			-names = (obj.alternates+[obj.name]).join(' ')
 			a.nocolor href="##{obj.name}" rel=names title=obj.name.capitalize
 				img rel="something" src="objects/#{obj.name}.png" /
 	#output.output
-		a#reset href="#reset" reset
+		a#reset href="#reset"
+			| reset 
+			span x
 		#chosen.objects
 			.object_1.nocolor
 				img src="img/unknown.png"

@@ -59,7 +59,7 @@ class Talk < ActiveRecord::Base
     colors = Color.count
     obs = SimpleObject.count
     
-    Talk.find_by_sql("
+    sql = "
     SELECT ref
     FROM (
       SELECT ref
@@ -88,7 +88,9 @@ class Talk < ActiveRecord::Base
       ORDER BY ref DESC
     ) as a
     WHERE ref < #{obs*obs*colors*colors}
-    LIMIT 1").first.ref.to_i
+    LIMIT 1"
+
+    Talk.find_by_sql(sql).first.ref.to_i
   end  
 end
 

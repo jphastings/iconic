@@ -1,3 +1,7 @@
+a img {
+	border:0;
+}
+
 .output .describe span {
 	background:transparent !important;
 }
@@ -66,6 +70,7 @@
 
 .row {
 	margin:0 20px;
+	position:relative;
 }
 
 .container {
@@ -79,6 +84,10 @@
 	margin: -64px;
 	z-index: 10;*/
 	color:green;
+}
+
+#chosen {
+	margin-top:10px;
 }
 
 #chosen.objects div {
@@ -95,7 +104,7 @@
 	font-size:24px;
 	text-align:center;
 	position:absolute;
-	top:0;
+	top:-32px;
 	right:0;
 	width:128px;
 }
@@ -117,8 +126,12 @@
 	display:block;
 }
 
-.results {
-	text-align:left;
+#choose .results {
+	margin-right:128px;
+}
+
+.results .uri {
+	word-wrap:break-word;
 }
 
 .results .major {
@@ -235,9 +248,21 @@ h2 {
 
 #reset {
 	color:#bbb;
+	text-decoration:none;
 }
 
-#reset:hover {
+#reset:hover, #output.used #reset span {
 	color:#c00;
-	text-decoration:underline;
+}
+
+#typed {
+	font-size: 16px;
+	margin: 5px 90px 5px 0;
+	padding: 6px 13px;
+	color:black;
+	top:0;
+	position:absolute;
+	border-radius: 50px;
+	background-color: #DDF;
+	display:none;
 }

@@ -1,10 +1,13 @@
 // TODO: undo colours / go back after success
+var demo_string = 'redlorryyellowlorry';
+
 $(document).ready(function() {
 	$('#reset').click(reset);
 
 	$('#colors a').click(function() {
 		var color = $(this).attr('href').substr(1);
-		$('#objects a').attr('class','nocolor '+color)
+		$('#objects a').attr('class',color)
+		$('#output').addClass('used')
 
 		if ($('#output .describe .object_1').hasClass('set') && $('#output .describe .color_1').hasClass('set')) {
 			// Target second object for colour change
@@ -35,6 +38,7 @@ $(document).ready(function() {
 	
 	$('#objects a').click(function() {
 		var object = $(this).attr('href').substr(1);
+		$('#output').addClass('used')
 		
 		if ($('#output .describe .object_1').hasClass('set') && $('#output .describe .color_1').hasClass('set')) {
 			$('#output .describe .object_2').text(object)
@@ -65,6 +69,9 @@ $(document).ready(function() {
 		var b = $('#output .describe .object_1').hasClass('set');
 		var c = $('#output .describe .color_2').hasClass('set');
 
+		var flyout = false;
+		var fly_to = $('#output .describe .color_1').offset();
+
 		if (!a || b && !c) {
 			$('#colors a:not([rel*='+choose+'])').addClass('semi');
 			$('#colors a[rel*='+choose+']').removeClass('semi');
@@ -74,7 +81,11 @@ $(document).ready(function() {
 					$('#colors a[rel~='+choose+']').click()
 					$('#text').val('')
 					$('#colors a').removeClass('semi')
-					// TODO: Show what was just typed
+					
+					flyout = true;
+					
+					fly_to = a ? $('#output .describe .color_2').offset() : $('#output .describe .color_1').offset();
+
 					break;
 				case 0:
 					$('#colors a:not([rel~='+choose+'])').addClass('semi');
@@ -84,33 +95,58 @@ $(document).ready(function() {
 			// Flags if there are no matches
 			$('#text').toggleClass('nomatches',$('#colors a:not(.semi)').length == 0)
 		} else {
-			$('#objects a[rel*='+choose+']').show();
-			$('#objects a:not([rel*='+choose+'])').hide();
-			switch($('#objects a[rel~='+choose+']').show().length) {
+			$('#objects a[rel*='+choose+']').removeClass('semi');
+			$('#objects a:not([rel*='+choose+'])').addClass('semi');
+			switch($('#objects a[rel~='+choose+']').length) {
 				case 1:
 					$('#objects a[rel~='+choose+']').click()
 					$('#text').val('')
-					$('#objects a').show()
-					// TODO: Show what was just typed
+					$('#objects a').removeClass('semi')
+					
+					flyout = true;
+					
+					fly_to = b ? $('#output .describe .object_2').offset() : $('#output .describe .object_1').offset();
+
 					break
 				case 0:
-					$('#objects a:not([rel*='+choose+'])').hide();
+					$('#objects a:not([rel*='+choose+'])').addClass('semi');
 			}
 
 			// Flags if there are no matches
-			$('#text').toggleClass('nomatches',$('#objects a:visible').length == 0)
+			$('#text').toggleClass('nomatches',$('#objects a:not(.semi)').length == 0)
 		}
+
+		// Demonstrate what was typed
+		if (flyout) {
+			$('#typed').text(choose).show().animate({
+				top:fly_to.top - $('#typed').offset().top,
+				left:fly_to.left - $('#typed').offset().left,
+				opacity:0
+			},1000,'linear',function() {
+				$(this).text('').css({
+					'display':'none',
+					'opacity':1.0,
+					'top':0,
+					'left':0
+				})
+			})
+			
+		}
+	})
+
+	$.getJSON('/suggest/x-x-x-x').success(function(data) {
+		demo_string = data.join('')
 	})
 
 	$('#demo').click(function(e){
 		e.preventDefault();
 
 		reset();
-		$.each("greymanblackcherry".split(''),function(i,letter) {
+		$.each(demo_string.split(''),function(i,letter) {
 			$('#text').queue(function() {
 				$('#text').val($('#text').val() + letter).trigger(jQuery.Event('input'))
 				$(this).dequeue();
-			}).delay(Math.random()*500+200)
+			}).delay(700)
 		})
 
 	})
@@ -152,12 +188,12 @@ function makeSuggestions() {
 		for(section in data) {
 			switch(section.split('_')[0]) {
 				case 'object':
-					$('#objects a:not([rel="'+data[section].join('"],[rel="')+'"])').hide();
-					$('#objects a[rel="'+data[section].join('"],#objects a[rel="')+'"]').show();
+					$('#objects a:not([rel="'+$.makeArray(data[section]).join('"],[rel="')+'"])').css('opacity','0.1');
+					$('#objects a[rel="'+$.makeArray(data[section]).join('"],#objects a[rel="')+'"]').css('opacity','1.0');
 					break;
 				case 'color':
-					$('#colors a:not([rel="'+data[section].join('"],[rel="')+'"])').addClass('semi');
-					$('#colors a[rel="'+data[section].join('"],#objects a[rel="')+'"]').removeClass('semi');
+					$('#colors a:not([rel="'+$.makeArray(data[section]).join('"],[rel="')+'"])').css('opacity','0.1');
+					$('#colors a[rel="'+$.makeArray(data[section]).join('"],#objects a[rel="')+'"]').css('opacity','1.0');
 					break;
 			}
 		}
@@ -165,6 +201,7 @@ function makeSuggestions() {
 }
 
 function getTitle(talk) {
+	console.log(talk)
 	$.getJSON(
 		'/title/'+talk
 	).success(function(data) {
@@ -181,8 +218,8 @@ function getTitle(talk) {
 }
 
 function reset() {
-	$('#objects a,#colors,#objects').show();
-	$('#colors a').removeClass('semi');
+	$('#objects a,#colors,#objects').show().css('opacity','1.0');;
+	$('#colors a').removeClass('semi').css('opacity','1.0');;
 	$('#output .describe .color').removeClass('set').text('colour')
 	$('#output .describe .object').removeClass('set').text('object')
 	$('#chosen .object_1 img,#chosen .object_2 img').attr('src','img/unknown.png')
@@ -194,4 +231,8 @@ function reset() {
 	$('#output .describe .object_2').attr('class','object object_2 nocolor')
 	$('#objects a').attr('class','nocolor')
 	$('#results').fadeOut();
+	$('.results .title').addClass('unknown').text('checking…')
+	$('#output').removeClass('used')
+
+	return false;
 }

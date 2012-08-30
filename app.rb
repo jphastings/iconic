@@ -35,6 +35,16 @@ get '/suggest/:color_1-:object_1-:color_2-:object_2' do
     :object_2 => SimpleObject.find_by_name(params[:object_2])
   }.delete_if {|k,v| v.nil?}
 
+  if query.keys.length == 0
+    talk = Talk.first(:order => "RANDOM()")
+    halt(200,[
+      talk.color_1.name,
+      talk.object_1.name,
+      talk.color_2.name,
+      talk.object_2.name
+    ].to_json)
+  end
+
   if query.keys.include?(:color_1) and !query.keys.include?(:object_1)
     halt(200,{:object_1 => Talk.all(:select => :object_1, :conditions => query,:group => :object_1).collect{|t| t.object_1.name}}.to_json)
   end
@@ -76,9 +86,10 @@ get '/title/:color_1-:object_1-:color_2-:object_2' do
   halt(404,"No such URI") if (talk.nil?)
 
   if talk.title.nil?
+    require 'htmlentities'
     u = URI.parse(talk.url)
   
-    if (u.scheme == 'http')
+    if (['https','http'].include? u.scheme)
       require 'timeout'
       require 'net/http'
     
@@ -96,14 +107,14 @@ get '/title/:color_1-:object_1-:color_2-:object_2' do
             break if res.code == "301"
 
             if res.body.match(/<title>(.+?)<\/title>/)
-              talk.title = $1.strip
+              talk.title = HTMLEntities.new.decode $1.strip
             end
           end
         end
       rescue
       end
       
-      talk.title ||= "#{File.basename(talk.url)} at #{u.host}"
+      talk.title ||= "#{u.path} at #{u.host}"
       talk.save
     else
       halt(200,"Not a website")
