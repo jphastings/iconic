@@ -5,7 +5,15 @@ require 'slim'
 require 'maruku'
 
 get '/' do
-  @commit = `git show --pretty=%H | head -n 1`
+  @commit = case
+  when File.directory?('.git')
+    `git show --pretty=%H | head -n 1`
+  when File.exist?('current_commit.txt')
+    File.read('current_commit.txt')
+  else
+    nil
+  end
+
   slim :index
 end
 
