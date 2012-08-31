@@ -1,58 +1,62 @@
-.row.header
-	a href="/"
-		h1 iconic
-		
-#explain.row
-	markdown:
-		Turn long web addresses into links you can speak. <a href="#demo" id="demo">Click here for a demo</a>
+form method="get" action="/create"
+	.row.header
+		a href="/"
+			h1 iconic
+			
+	#explain.row
+		markdown:
+			Turn long web addresses into links you can speak. <a href="#demo" id="demo">Click here for a demo</a>
 
-		Drag this link to your bookmark bar: <a href="javascript:(function(){ window.open('http://#{request.host}/create?uri='+encodeURIComponent(location.href),'iconic','height=500,location=no,menubar=no,scrollbars=no,statusbar=no,toolbar=no,width=773'); })();">make it iconic</a> and click it when you want to share the site you’re browsing.
+			Drag this link to your bookmark bar: <a href="javascript:(function(){ window.open('http://#{request.host}/create?uri='+encodeURIComponent(location.href),'iconic','height=500,location=no,menubar=no,scrollbars=no,statusbar=no,toolbar=no,width=773'); })();">make it iconic</a> and click it when you want to share the site you’re browsing.
 
-	ul.shh
-		li
-			a href="http://github.com/jphastings/iconic/issues" report a bug
-		li
-			a href="http://github.com/jphastings/iconic" see the code
-		li
-			a href="http://github.com/jphastings/iconic#readme" about
-		
-.row
-	input#text placeholder="type here, or click the objects below"
-	#typed
-#choose.row
-	#colors
-		-Color.all.each do |col|
-			a href="##{col.name}" class=col.name rel=col.name
-	#objects.objects
-		-SimpleObject.all(:order => 'name ASC').each do |obj|
-			-names = (obj.alternates+[obj.name]).join(' ')
-			a.nocolor href="##{obj.name}" rel=names title=obj.name.capitalize
-				img rel="something" src="objects/#{obj.name}.png" /
-	#output.output
-		a#reset href="#reset"
-			| reset 
-			span x
-		#chosen.objects
-			.object_1.nocolor
-				img src="img/unknown.png"
-			.object_2.nocolor
-				img src="img/unknown.png"
-		.describe
-			.group
-				span.color.color_1.nocolor colour
-				=" "
-				span.object.object_1.nocolor object
-				=" "
-			.group
-				span.color.color_2.nocolor colour
-				=" "
-				span.object.object_2.nocolor object
-	#results.results
-		a href="#"
-			.title.major.unknown checking&hellip;
-			.uri.minor
-
-#response=":("
-#footer
-	-unless @commit.nil?
-		| Running <a href="https://github.com/jphastings/iconic/commit/#{@commit}" target="github">version #{@commit[0...10]}</a>
+		ul.shh
+			li
+				a href="http://github.com/jphastings/iconic/issues" report a bug
+			li
+				a href="http://github.com/jphastings/iconic" see the code
+			li
+				a href="http://github.com/jphastings/iconic#readme" about
+			
+	.row
+		input#text placeholder="type here, or click the objects below"
+		#typed
+	#choose.row
+		#colors
+			-Color.all.each do |col|
+				a href="##{col.name}" class=col.name rel=col.name
+		#objects.objects
+			-SimpleObject.all(:order => 'name ASC').each do |obj|
+				-names = (obj.alternates+[obj.name]).join(' ')
+				a.nocolor href="##{obj.name}" rel=names title=obj.name.capitalize
+					img rel="something" src="objects/#{obj.name}.png" /
+		#output.output
+			a#reset href="#reset"
+				| reset 
+				span x
+			#chosen.objects
+				.object_1.nocolor
+					img src="img/unknown.png"
+				.object_2.nocolor
+					img src="img/unknown.png"
+			.describe
+				.group
+					span.color.color_1.nocolor colour
+					=" "
+					span.object.object_1.nocolor object
+					=" "
+				.group
+					span.color.color_2.nocolor colour
+					=" "
+					span.object.object_2.nocolor object
+		#results.results
+			a href="#"
+				.title.major.unknown checking&hellip;
+				.uri.minor
+	#url_input
+		input.process name="uri" type="submit" value="Create iconic link"
+		markdown:
+			Enter the URL you want to shorten and the button to create an iconic link.
+	#response=":("
+	#footer
+		-unless @commit.nil?
+			| Running <a href="https://github.com/jphastings/iconic/commit/#{@commit}" target="github">version #{@commit[0...10]}</a>

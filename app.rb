@@ -26,6 +26,8 @@ get '/create' do
   end
   
   u.scheme ||= 'http'
+
+  p u
   
   halt(403,"You may not store javascript like that here") if u.scheme == 'javascript'
   halt(414,"That URI is too long") if u.to_s.length > 1024
@@ -95,7 +97,7 @@ get '/title/:color_1-:object_1-:color_2-:object_2' do
   
   halt(404,"No such URI") if (talk.nil?)
 
-  find_title(talk).to_json
+  talk.fetch_title.to_json
 end
 
 get '/discover/:descr' do

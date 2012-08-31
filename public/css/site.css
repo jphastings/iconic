@@ -318,3 +318,17 @@ ul.shh li a:hover {
 	color:#555;
 	text-decoration:underline;
 }
+
+#url_input {
+	display:none;
+	padding: 5px 20px;
+	color: #007300;
+	position:relative;
+}
+
+#url_input .process {
+	position: absolute;
+	top: -38px;
+	left: 625px;
+	font-size: 16px;
+}

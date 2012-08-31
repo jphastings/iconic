@@ -2,7 +2,15 @@
 var demo_string = 'redlorryyellowlorry';
 
 $(document).ready(function() {
-	$('#reset').click(reset);
+	$('#reset').click(reset_iconic);
+
+	$('form').submit(function(e){
+		e.preventDefault()
+
+		if ($('#url_input .process').is(':visible')) {
+			$('#url_input .process').click()
+		}
+	})
 
 	$('#colors a').click(function() {
 		var color = $(this).attr('href').substr(1);
@@ -63,74 +71,87 @@ $(document).ready(function() {
 	})
 	
 	$('#text').bind('input',function(e) {
-		var choose = $('#text').val().replace(/\s/g,'').replace(/[^a-z]/gi,'-');
-
-		var a = $('#output .describe .color_1').hasClass('set');
-		var b = $('#output .describe .object_1').hasClass('set');
-		var c = $('#output .describe .color_2').hasClass('set');
-
-		var flyout = false;
-		var fly_to = $('#output .describe .color_1').offset();
-
-		if (!a || b && !c) {
-			$('#colors a:not([rel*='+choose+'])').addClass('semi');
-			$('#colors a[rel*='+choose+']').removeClass('semi');
-			
-			switch($('#colors a[rel~='+choose+']').length) {
-				case 1:
-					$('#colors a[rel~='+choose+']').click()
-					$('#text').val('')
-					$('#colors a').removeClass('semi')
-					
-					flyout = true;
-					
-					fly_to = a ? $('#output .describe .color_2').offset() : $('#output .describe .color_1').offset();
-
-					break;
-				case 0:
-					$('#colors a:not([rel~='+choose+'])').addClass('semi');
-					$('#colors a[rel*='+choose+']').removeClass('semi');
+		if ($('#text').val().match(/:/)) {
+			if (!$('#text').hasClass('url_input')) {
+				$('#text').addClass('url_input')
+				$('#choose').slideUp()
+				$('#url_input').slideDown()
 			}
-
-			// Flags if there are no matches
-			$('#text').toggleClass('nomatches',$('#colors a:not(.semi)').length == 0)
 		} else {
-			$('#objects a[rel*='+choose+']').removeClass('semi');
-			$('#objects a:not([rel*='+choose+'])').addClass('semi');
-			switch($('#objects a[rel~='+choose+']').length) {
-				case 1:
-					$('#objects a[rel~='+choose+']').click()
-					$('#text').val('')
-					$('#objects a').removeClass('semi')
-					
-					flyout = true;
-					
-					fly_to = b ? $('#output .describe .object_2').offset() : $('#output .describe .object_1').offset();
-
-					break
-				case 0:
-					$('#objects a:not([rel*='+choose+'])').addClass('semi');
+			if ($('#text').hasClass('url_input')) {
+				$('#choose').slideDown()
+				$('#url_input').slideUp()
 			}
 
-			// Flags if there are no matches
-			$('#text').toggleClass('nomatches',$('#objects a:not(.semi)').length == 0)
-		}
+			var choose = $('#text').val().replace(/\s/g,'').replace(/[^a-z]/gi,'-');
 
-		// Demonstrate what was typed
-		if (flyout) {
-			$('#typed').text(choose).show().animate({
-				top:fly_to.top - $('#typed').offset().top,
-				left:fly_to.left - $('#typed').offset().left,
-				opacity:0
-			},1000,'linear',function() {
-				$(this).text('').css({
-					'display':'none',
-					'opacity':1.0,
-					'top':0,
-					'left':0
+			var a = $('#output .describe .color_1').hasClass('set');
+			var b = $('#output .describe .object_1').hasClass('set');
+			var c = $('#output .describe .color_2').hasClass('set');
+
+			var flyout = false;
+			var fly_to = $('#output .describe .color_1').offset();
+
+			if (!a || b && !c) {
+				$('#colors a:not([rel*='+choose+'])').addClass('semi');
+				$('#colors a[rel*='+choose+']').removeClass('semi');
+				
+				switch($('#colors a[rel~='+choose+']').length) {
+					case 1:
+						$('#colors a[rel~='+choose+']').click()
+						$('#text').val('')
+						$('#colors a').removeClass('semi')
+						
+						flyout = true;
+						
+						fly_to = a ? $('#output .describe .color_2').offset() : $('#output .describe .color_1').offset();
+
+						break;
+					case 0:
+						$('#colors a:not([rel~='+choose+'])').addClass('semi');
+						$('#colors a[rel*='+choose+']').removeClass('semi');
+				}
+
+				// Flags if there are no matches
+				$('#text').toggleClass('nomatches',($('#colors a:not(.semi)').length == 0) && ('https'.match(new RegExp('^'+$('#text').val())) == null))
+			} else {
+				$('#objects a[rel*='+choose+']').removeClass('semi');
+				$('#objects a:not([rel*='+choose+'])').addClass('semi');
+				switch($('#objects a[rel~='+choose+']').length) {
+					case 1:
+						$('#objects a[rel~='+choose+']').click()
+						$('#text').val('')
+						$('#objects a').removeClass('semi')
+						
+						flyout = true;
+						
+						fly_to = b ? $('#output .describe .object_2').offset() : $('#output .describe .object_1').offset();
+
+						break
+					case 0:
+						$('#objects a:not([rel*='+choose+'])').addClass('semi');
+				}
+
+				// Flags if there are no matches
+				$('#text').toggleClass('nomatches',($('#objects a:not(.semi)').length == 0) && ('https'.match(new RegExp('^'+$('#text').val())) == null))
+			}
+
+			// Demonstrate what was typed
+			if (flyout) {
+				$('#typed').text(choose).show().animate({
+					top:fly_to.top - $('#typed').offset().top,
+					left:fly_to.left - $('#typed').offset().left,
+					opacity:0
+				},1000,'linear',function() {
+					$(this).text('').css({
+						'display':'none',
+						'opacity':1.0,
+						'top':0,
+						'left':0
+					})
 				})
-			})
-			
+				
+			}
 		}
 	})
 
@@ -141,7 +162,7 @@ $(document).ready(function() {
 	$('#demo').click(function(e){
 		e.preventDefault();
 
-		reset();
+		reset_iconic();
 		$.each(demo_string.split(''),function(i,letter) {
 			$('#text').queue(function() {
 				$('#text').val($('#text').val() + letter).trigger(jQuery.Event('input'))
@@ -149,6 +170,11 @@ $(document).ready(function() {
 			}).delay(500)
 		})
 
+	})
+
+	$('#url_input .process').click(function() {
+		window.open('/create?uri='+$('#text').val(),'iconic','height=500,location=no,menubar=no,scrollbars=no,statusbar=no,toolbar=no,width=773');
+		reset_iconic();
 	})
 })
 
@@ -174,7 +200,7 @@ function completeInput() {
 		$('#results').slideDown()
 	}).error(function() {
 		$('#response').addClass('error').text(':(').fadeIn().queue(function() {
-			reset();
+			reset_iconic();
 			
 			$(this).dequeue();
 		}).delay(1000).fadeOut();
@@ -217,7 +243,7 @@ function getTitle(talk) {
 	})
 }
 
-function reset() {
+function reset_iconic() {
 	$('#objects a,#colors,#objects').show().css('opacity','1.0');;
 	$('#colors a').removeClass('semi').css('opacity','1.0');;
 	$('#output .describe .color').removeClass('set').text('colour')
