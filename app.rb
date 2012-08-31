@@ -5,6 +5,7 @@ require 'slim'
 require 'maruku'
 
 get '/' do
+  @commit = `git show --pretty=%H | head -n 1`
   slim :index
 end
 

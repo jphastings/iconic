@@ -298,3 +298,23 @@ ul.shh li a:hover {
 	color:#555;
 	text-decoration: underline;
 }
+
+#footer {
+	position:absolute;
+	bottom:0;
+	right:0;
+	padding:5px;
+	font-style:italic;
+	color:#ccc;
+	font-size:10px;
+}
+
+#footer a {
+	color:#ccc;
+	text-decoration:none;
+}
+
+#footer a:hover {
+	color:#555;
+	text-decoration:underline;
+}
