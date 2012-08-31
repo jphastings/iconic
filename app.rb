@@ -86,43 +86,7 @@ get '/title/:color_1-:object_1-:color_2-:object_2' do
   
   halt(404,"No such URI") if (talk.nil?)
 
-  if talk.title.nil?
-    require 'htmlentities'
-    u = URI.parse(talk.url)
-  
-    if (['https','http'].include? u.scheme)
-      require 'timeout'
-      require 'net/http'
-    
-      begin
-        Timeout.timeout(2) do
-          Net::HTTP.start(u.host, u.port) do |http|
-            res = nil
-            
-            0.upto(3) do
-              res = http.request_get(u.request_uri)
-              
-              break if res.code == "200"
-            end
-
-            break if res.code == "301"
-
-            if res.body.match(/<title>(.+?)<\/title>/)
-              talk.title = HTMLEntities.new.decode $1.strip
-            end
-          end
-        end
-      rescue
-      end
-      
-      talk.title ||= (u.path == "/" or u.path == '') ? u.host :  "#{u.path} at #{u.host}"
-      talk.save
-    else
-      halt(200,"Not a website")
-    end
-  end
-  
-  talk.title.to_json
+  find_title(talk).to_json
 end
 
 get '/discover/:descr' do

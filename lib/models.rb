@@ -1,10 +1,10 @@
 class SimpleObject < ActiveRecord::Base
   has_many :alternate_names
-  
+
   def alternates
     self.alternate_names.collect{|a| a.name}
   end
-  
+
   def to_s
     self[:name]
   end
@@ -21,18 +21,18 @@ class Talk < ActiveRecord::Base
   belongs_to :color_1, :class_name => 'Color', :foreign_key => :color_1
   belongs_to :object_2, :class_name => 'SimpleObject', :foreign_key => :object_2
   belongs_to :color_2, :class_name => 'Color', :foreign_key => :color_2
-  
+
   before_save :before_save
-  
+
   def before_save
     if self[:object_1].nil? # If one is nil they should all be nil
       # Get a new random talk set
       colors = Color.count
       obs = SimpleObject.count
-      
+
       # Take a random number of all the possible ones (starts at 0)
       guess = Random.rand(colors*obs*colors*obs)
-      
+
       # Find the next available talk from the guessed number up
       ref = find_next_free_ref(guess)
 
@@ -45,20 +45,68 @@ class Talk < ActiveRecord::Base
       self[:object_2] = ref % obs
     end
   end
-  
+
   def image_1
     "/objects/#{object_1.name}.png"
   end
-  
+
   def image_2
     "/objects/#{object_2.name}.png"
   end
-  
+
+  def fetch_title(timeout = 2)
+    if read_attribute(:title).nil?
+      require 'htmlentities'
+
+      u = URI.parse(read_attribute(:url))
+
+      if (['https','http'].include? u.scheme)
+        require 'timeout'
+        require 'net/http'
+        require 'net/https'
+
+        begin
+          Timeout.timeout(timeout) do
+            Net::HTTP.start(u.host, u.port) do |http|
+              http = Net::HTTP.new(u.host, u.port)
+              http.use_ssl = true
+              http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+
+              res = nil
+
+              0.upto(3) do
+                res = http.request_get(u.request_uri)
+
+                break if res.code == "200"
+                raise RuntimeError unless res.code =~ /^3/ # Too many redirects
+              end
+
+              break if res.code != "200"
+
+              if res.body.match(/<meta property="og:title" content="(.+)"/) or res.body.match(/<title>(.+?)<\/title>/) # TODO: Social title, see facebook
+                 write_attribute(:title,HTMLEntities.new.decode($1.strip))
+              end
+            end
+          end
+        rescue
+        end
+
+        if read_attribute(:title).nil?
+          write_attribute(:title,((u.path == "/" or u.path == '') ? u.host :  "#{u.path} at #{u.host}"))
+        end
+      else
+        halt(200,"Not a website")
+      end
+    end
+
+    read_attribute(:title)
+  end
+
   private
   def find_next_free_ref(ref)
     colors = Color.count
     obs = SimpleObject.count
-    
+
     sql = "
     SELECT ref
     FROM (
@@ -91,7 +139,7 @@ class Talk < ActiveRecord::Base
     LIMIT 1"
 
     Talk.find_by_sql(sql).first.ref.to_i
-  end  
+  end
 end
 
 class AlternateName < ActiveRecord::Base

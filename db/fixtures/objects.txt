@@ -22,7 +22,7 @@ car
 case suitcase briefcase
 cat
 cheese
-cherry
+cherry cherries
 cloud
 clover shamrock
 cow
