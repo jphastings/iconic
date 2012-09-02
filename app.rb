@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'sinatra'
+require 'nokogiri'
 require File.join(File.dirname(__FILE__), 'environment')
 require 'slim'
 require 'maruku'
@@ -34,6 +35,28 @@ get '/create' do
   @talk.save
   
   slim :shapes
+end
+
+get '/objects/:color-:object.svg' do
+  colored_svg = File.join(File.dirname(__FILE__),'public','objects',"#{params[:color]}-#{params[:object]}.svg")
+
+  pass if File.exist? colored_svg
+  
+  color = Color.find_by_name(params[:color])
+  object = SimpleObject.find_by_name(params[:object])
+
+  halt(404,"No such object") if color.nil? or object.nil?
+
+  svg = Nokogiri::XML(open(File.join(File.dirname(__FILE__),'public','objects','svg',"#{object.name}.svg")))
+  style = Nokogiri::XML::Node.new('style',svg)
+  style.content = "* {fill:##{color.hex};}"
+  svg.at_css('svg') << style
+  File.open(colored_svg,'w') do |f|
+    f.write svg.to_xml
+  end
+
+  content_type :svg
+  svg.to_xml
 end
 
 get '/suggest/:color_1-:object_1-:color_2-:object_2' do
@@ -134,3 +157,4 @@ get '/:color_1-:object_1-:color_2-:object_2' do
 
   slim :shapes
 end
+

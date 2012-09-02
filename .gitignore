@@ -11,3 +11,7 @@
 ehthumbs.db
 Icon?
 Thumbs.db
+
+# Application specific #
+########################
+public/objects/*-*.svg

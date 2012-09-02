@@ -10,3 +10,4 @@ gem 'sinatra-namespace'
 gem 'rake'
 gem 'rspec', :group => :test
 gem 'htmlentities'
+gem 'nokogiri'

@@ -14,6 +14,10 @@ class Color < ActiveRecord::Base
   def to_s
     self[:name]
   end
+
+  def hex
+    [self[:red],self[:green],self[:blue]].collect {|component| component.to_s(16).rjust(2,'0') }.join
+  end
 end
 
 class Talk < ActiveRecord::Base
