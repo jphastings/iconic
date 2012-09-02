@@ -3,6 +3,11 @@ var demo_string = 'redlorryyellowlorry';
 
 $(document).ready(function() {
 	$('#reset').click(reset_iconic);
+	$(document).keydown(function(e){
+		if (e.keyCode == 27) {
+			reset_iconic();
+		}
+	})
 
 	$('form').submit(function(e){
 		e.preventDefault()
