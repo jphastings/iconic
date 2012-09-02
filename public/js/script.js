@@ -37,7 +37,7 @@ $(document).ready(function() {
 			$('#output .describe .color_1').addClass('set')
 
 			if ($('#output .describe .object_1').hasClass('set')) {
-				$('#objects a img').attr('class','nocolor')
+				$('#objects a').attr('class','nocolor')
 			}
 		}
 
