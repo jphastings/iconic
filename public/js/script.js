@@ -15,6 +15,7 @@ $(document).ready(function() {
 	})
 
 	$('#colors a').click(function() {
+		$('#colors a,#objects a').css('opacity',''); // Just in case there's a leftover suggestion
 		var color = $(this).attr('href').substr(1);
 		$('#objects a').attr('class',color)
 		$('#output').addClass('used')
@@ -47,6 +48,7 @@ $(document).ready(function() {
 	})
 	
 	$('#objects a').click(function() {
+		$('#colors a,#objects a').css('opacity',''); // Just in case there's a leftover suggestion
 		var object = $(this).attr('href').substr(1);
 		$('#output').addClass('used')
 		
@@ -214,12 +216,12 @@ function makeSuggestions() {
 		for(section in data) {
 			switch(section.split('_')[0]) {
 				case 'object':
-					$('#objects a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').css('opacity','0.01');
+					$('#objects a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').animate({'opacity':'0.01'});
 					$('#objects a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel~="')+'"]').css('opacity','');
 					break;
 				case 'color':
-					$('#colors a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').css('opacity','0.01');
-					$('#colors a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel~="')+'"]').css('opacity','');
+					$('#colors a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').animate({'opacity':'0.01'});
+					$('#colors a[rel~="'+$.makeArray(data[section]).join('"],#colors a[rel~="')+'"]').css('opacity','');
 					break;
 			}
 		}

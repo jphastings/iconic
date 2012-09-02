@@ -141,7 +141,7 @@ end
 get '/css/colors.css' do
   content_type :css
   Color.all.each.collect do |c|
-    ".#{c.name} {background-color:rgb(#{c.red},#{c.green},#{c.blue});color:rgb(#{c.red},#{c.green},#{c.blue});}"
+    ".#{c.name} {background-color:##{c.hex};color:##{c.hex};}"
   end
 end
 
