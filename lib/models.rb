@@ -83,25 +83,23 @@ class Talk < ActiveRecord::Base
 
         begin
           Timeout.timeout(timeout) do
-            Net::HTTP.start(u.host, u.port) do |http|
-              http = Net::HTTP.new(u.host, u.port)
-              http.use_ssl = true
-              http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+            http = Net::HTTP.new(u.host, u.port)
+            http.use_ssl = (u.scheme == 'https')
+            http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
-              res = nil
+            res = nil
 
-              0.upto(3) do
-                res = http.request_get(u.request_uri)
+            0.upto(3) do
+              res = http.request_get(u.request_uri)
 
-                break if res.code == "200"
-                raise RuntimeError unless res.code =~ /^3/ # Too many redirects
-              end
+              break if res.code == "200"
+              raise RuntimeError unless res.code =~ /^3/ # Too many redirects
+            end
 
-              break if res.code != "200"
+            break if res.code != "200"
 
-              if res.body.match(/<meta property="og:title" content="(.+)"/) or res.body.match(/<title>(.+?)<\/title>/) # TODO: Social title, see facebook
-                 write_attribute(:title,HTMLEntities.new.decode($1.strip))
-              end
+            if res.body.match(/<meta property="og:title" content="(.+?)"/) or res.body.match(/<title>(.+?)<\/title>/) # TODO: Social title, see facebook
+               write_attribute(:title,HTMLEntities.new.decode($1.strip))
             end
           end
         rescue
