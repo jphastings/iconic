@@ -121,6 +121,7 @@ $(document).ready(function() {
 			} else {
 				$('#objects a[rel*='+choose+']').removeClass('semi');
 				$('#objects a:not([rel*='+choose+'])').addClass('semi');
+
 				switch($('#objects a[rel~='+choose+']').length) {
 					case 1:
 						$('#objects a[rel~='+choose+']').click()
@@ -213,12 +214,12 @@ function makeSuggestions() {
 		for(section in data) {
 			switch(section.split('_')[0]) {
 				case 'object':
-					$('#objects a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').css('opacity','0.1');
-					$('#objects a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel~="')+'"]').css('opacity','1.0');
+					$('#objects a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').css('opacity','0.01');
+					$('#objects a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel~="')+'"]').css('opacity','');
 					break;
 				case 'color':
-					$('#colors a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').css('opacity','0.1');
-					$('#colors a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel~="')+'"]').css('opacity','1.0');
+					$('#colors a:not([rel~="'+$.makeArray(data[section]).join('"],[rel~="')+'"])').css('opacity','0.01');
+					$('#colors a[rel~="'+$.makeArray(data[section]).join('"],#objects a[rel~="')+'"]').css('opacity','');
 					break;
 			}
 		}
@@ -243,8 +244,8 @@ function getTitle(talk) {
 }
 
 function reset_iconic() {
-	$('#objects a,#colors,#objects').show().css('opacity','1.0');;
-	$('#colors a').removeClass('semi').css('opacity','1.0');
+	$('#objects a,#colors,#objects').show().css('opacity','');
+	$('#colors a').removeClass('semi').css('opacity','');
 	$('#output .describe .color').removeClass('set').text('colour')
 	$('#output .describe .object').removeClass('set').text('object')
 	$('#chosen .object_1 img,#chosen .object_2 img').attr('src','img/unknown.png')
