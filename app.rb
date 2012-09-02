@@ -26,8 +26,6 @@ get '/create' do
   end
   
   u.scheme ||= 'http'
-
-  p u
   
   halt(403,"You may not store javascript like that here") if u.scheme == 'javascript'
   halt(414,"That URI is too long") if u.to_s.length > 1024

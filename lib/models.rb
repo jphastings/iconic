@@ -26,23 +26,35 @@ class Talk < ActiveRecord::Base
 
   def before_save
     if self[:object_1].nil? # If one is nil they should all be nil
-      # Get a new random talk set
-      colors = Color.count
-      obs = SimpleObject.count
+      
+      # TODO: This is a hack because the SQL below seems to return an already present ID sometimes...
+      has_new_ref = false
+      while not has_new_ref
+        # Get a new random talk set
+        colors = Color.count
+        obs = SimpleObject.count
 
-      # Take a random number of all the possible ones (starts at 0)
-      guess = Random.rand(colors*obs*colors*obs)
+        # Take a random number of all the possible ones (starts at 0)
+        guess = Random.rand(colors*obs*colors*obs)
 
-      # Find the next available talk from the guessed number up
-      ref = find_next_free_ref(guess)
+        # Find the next available talk from the guessed number up
+        ref = find_next_free_ref(guess)
+      
+        # Assign to this talk
+        talk = {}
+        talk[:color_1] = (ref / (obs*obs*colors)).floor + 1
+        ref = ref % (obs*obs*colors)
+        talk[:object_1] = (ref / (obs*colors)).floor + 1
+        ref = ref % (obs*colors)
+        talk[:color_2] = (ref / obs).floor + 1
+        talk[:object_2] = ref % obs
 
-      # Assign to this talk
-      self[:color_1] = (ref / (obs*obs*colors)).floor + 1
-      ref = ref % (obs*obs*colors)
-      self[:object_1] = (ref / (obs*colors)).floor + 1
-      ref = ref % (obs*colors)
-      self[:color_2] = (ref / obs).floor + 1
-      self[:object_2] = ref % obs
+        has_new_ref = Talk.first(:conditions=>talk).nil?
+      end
+
+      talk.each_pair do |key,val|
+        self[key] = val
+      end
     end
   end
 
