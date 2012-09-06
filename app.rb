@@ -37,6 +37,14 @@ get '/create' do
   slim :shapes
 end
 
+get '/objects',:provides => :json do
+  Hash[SimpleObject.all.collect {|ob| [ob.name,ob.alternates]}].to_json
+end
+
+get '/colors',:provides => :json do
+  Hash[Color.all.collect{|c| [c.name, c.hex] }].to_json
+end
+
 get '/objects/:color-:object.svg' do
   colored_svg = File.join(File.dirname(__FILE__),'public','objects',"#{params[:color]}-#{params[:object]}.svg")
 
