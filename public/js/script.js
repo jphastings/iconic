@@ -1,5 +1,5 @@
 // TODO: undo colours / go back after success
-var demo_string = 'redlorryyellowlorry';
+var demo_string = 'redheartbrownhat';
 
 $(document).ready(function() {
 	$('#reset').click(reset_iconic);
@@ -167,7 +167,7 @@ $(document).ready(function() {
 		}
 	})
 
-	$.getJSON('/suggest/x-x-x-x').success(function(data) {
+	$.getJSON('/links/x-x-x-x').success(function(data) {
 		demo_string = data.join('')
 	})
 
@@ -187,7 +187,7 @@ $(document).ready(function() {
 
 function completeInput() {
 	var talk = $.makeArray($('#output .describe span').map(function(i,w) {return $(w).text()})).join('-');
-	$.getJSON('/discover/'+talk).success(function(data) {
+	$.getJSON('/links/'+talk).success(function(data) {
 		$('#colors,#objects').slideUp()
 		
 		$('#results a').attr('href',data.uri)
@@ -217,7 +217,7 @@ function completeInput() {
 function makeSuggestions() {
 	var talk = $.makeArray($('#output .describe span').map(function(i,w) {return $(w).text()})).join('-');
 
-	$.getJSON('/suggest/'+talk).success(function(data) {
+	$.getJSON('/links/'+talk).success(function(data) {
 		for(section in data) {
 			switch(section.split('_')[0]) {
 				case 'object':
@@ -236,7 +236,7 @@ function makeSuggestions() {
 function getTitle(talk) {
 	console.log(talk)
 	$.getJSON(
-		'/title/'+talk
+		'/links/'+talk+'/title'
 	).success(function(data) {
 		if (data == null || data == '-') {
 			$('.results .title').hide()

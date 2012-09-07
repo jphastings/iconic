@@ -28,6 +28,10 @@ class Talk < ActiveRecord::Base
 
   before_save :before_save
 
+  def link
+    "/links/#{color_1.name}-#{object_1.name}-#{color_2.name}-#{object_2.name}"
+  end
+
   def before_save
     if self[:object_1].nil? # If one is nil they should all be nil
       
@@ -106,7 +110,7 @@ class Talk < ActiveRecord::Base
         end
 
         if read_attribute(:title).nil?
-          write_attribute(:title,((u.path == "/" or u.path == '') ? u.host :  "#{u.path} at #{u.host}"))
+          write_attribute(:title,((u.path == "/" or u.path == '') ? u.host :  "#{File.basename(u.path)} at #{u.host}"))
         end
       else
         halt(200,"Not a website")

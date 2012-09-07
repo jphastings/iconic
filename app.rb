@@ -67,17 +67,32 @@ get '/objects/:color-:object.svg' do
   svg.to_xml
 end
 
-get '/suggest/:color_1-:object_1-:color_2-:object_2' do
+get '/links/*/title', :provides => :json do
+  attrs = params['splat'][0].split('-')
+  color_1  = Color.find_by_name(attrs[0]),
+  object_1 = SimpleObject.find_by_name(attrs[1]),
+  color_2  = Color.find_by_name(attrs[2]),
+  object_2 = SimpleObject.find_by_name(attrs[3])
+  
+  talk = Talk.find_by_color_1_and_object_1_and_color_2_and_object_2(color_1,object_1,color_2,object_2)
+  
+  halt(404,"No such link") if talk.nil?
+
+  talk.fetch_title.to_json
+end
+
+get '/links/*', :provides => :json do
+  attrs = params['splat'][0].split('-')
   query = {
-    :color_1  => Color.find_by_name(params[:color_1]),
-    :object_1 => SimpleObject.find_by_name(params[:object_1]),
-    :color_2  => Color.find_by_name(params[:color_2]),
-    :object_2 => SimpleObject.find_by_name(params[:object_2])
+    :color_1  => Color.find_by_name(attrs[0]),
+    :object_1 => SimpleObject.find_by_name(attrs[1]),
+    :color_2  => Color.find_by_name(attrs[2]),
+    :object_2 => SimpleObject.find_by_name(attrs[3])
   }.delete_if {|k,v| v.nil?}
 
   if query.keys.length == 0
     talk = Talk.first(:order => "RANDOM()")
-    halt 404,'[]' if talk.nil?
+    halt 404,'{}' if talk.nil?
     halt(200,[
       talk.color_1.name,
       talk.object_1.name,
@@ -111,34 +126,9 @@ get '/suggest/:color_1-:object_1-:color_2-:object_2' do
     end
   end
 
-  query.to_json
-end
-
-
-
-get '/title/:color_1-:object_1-:color_2-:object_2' do
-  color_1  = Color.find_by_name(params[:color_1])
-  object_1 = SimpleObject.find_by_name(params[:object_1])
-  color_2  = Color.find_by_name(params[:color_2])
-  object_2 = SimpleObject.find_by_name(params[:object_2])
-  
-  talk = Talk.find_by_color_1_and_object_1_and_color_2_and_object_2(color_1,object_1,color_2,object_2)
-  
-  halt(404,"No such URI") if (talk.nil?)
-
-  talk.fetch_title.to_json
-end
-
-get '/discover/:descr' do
-  descr = params[:descr].split('-')
-  color_1  = Color.find_by_name(descr[0])
-  object_1 = SimpleObject.find_by_name(descr[1])
-  color_2  = Color.find_by_name(descr[2])
-  object_2 = SimpleObject.find_by_name(descr[3])
-  
-  talk = Talk.find_by_color_1_and_object_1_and_color_2_and_object_2(color_1,object_1,color_2,object_2)
-  
-  halt(404,"No such URI") if (talk.nil?)
+  # This is a real talk
+  talk = Talk.first(:conditions => query)
+  halt 404,'No such link' if talk.nil?
   
   {
     :uri => talk.url,
@@ -146,8 +136,7 @@ get '/discover/:descr' do
   }.to_json
 end
 
-get '/css/colors.css' do
-  content_type :css
+get '/css/colors.css',:provides => :css do
   Color.all.each.collect do |c|
     ".#{c.name} {background-color:##{c.hex};color:##{c.hex};}"
   end
