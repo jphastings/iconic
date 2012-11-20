@@ -234,7 +234,7 @@ function makeSuggestions() {
 }
 
 function getTitle(talk) {
-	console.log(talk)
+	//console.log(talk)
 	$.getJSON(
 		'/links/'+talk+'/title'
 	).success(function(data) {
