@@ -20,7 +20,7 @@ $(document).ready(function() {
 	})
 
 	$('#colors a').click(function() {
-		$('#colors a,#objects a').css('opacity',''); // Just in case there's a leftover suggestion
+		//$('#colors a,#objects a').css('opacity',''); // Just in case there's a leftover suggestion
 		var color = $(this).attr('href').substr(1);
 		$('#objects a').attr('class',color)
 		$('#output').addClass('used')
@@ -53,7 +53,7 @@ $(document).ready(function() {
 	})
 	
 	$('#objects a').click(function() {
-		$('#colors a,#objects a').css('opacity',''); // Just in case there's a leftover suggestion
+		//$('#colors a,#objects a').css('opacity',''); // Just in case there's a leftover suggestion
 		var object = $(this).attr('href').substr(1);
 		$('#output').addClass('used')
 		

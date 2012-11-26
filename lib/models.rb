@@ -117,6 +117,7 @@ class Talk < ActiveRecord::Base
       end
     end
 
+    save
     read_attribute(:title)
   end
 

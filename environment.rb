@@ -1,3 +1,5 @@
+require 'dotenv'
+Dotenv.load
 require 'active_record'
 require 'uri'
 require File.join(File.dirname(__FILE__), 'lib','helpers')

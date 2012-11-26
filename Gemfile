@@ -1,4 +1,5 @@
 source :rubygems
+ruby "1.9.3"
 gem 'thin'
 gem 'sinatra'
 gem 'activerecord'
@@ -11,3 +12,4 @@ gem 'rake'
 gem 'rspec', :group => :test
 gem 'htmlentities'
 gem 'nokogiri'
+gem 'dotenv'
