@@ -1,11 +1,13 @@
 web:
-  image: tutum.co/jphastings/iconic
+  image: jphastings/iconic
   autoredeploy: true
   links:
     - "postgres"
   ports:
     - "80"
+  environment:
+    - DATABASE_URL=postgres://iconic:$DB_PASSWORD@$POSTGRESQL_PORT_5432_TCP_ADDR:$POSTGRESQL_1_PORT_5432_TCP_PORT/iconic
+    - DB_PASSWORD
 postgres:
   image: tutum/postgresql
-  environment:
-    - POSTGRES_PASS
+

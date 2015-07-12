@@ -1,7 +1,8 @@
-source :rubygems
+source "https://rubygems.org"
+
 gem 'thin'
 gem 'sinatra'
-gem 'activerecord'
+gem 'activerecord', '~>3.0'
 gem 'slim'
 gem 'maruku'
 gem 'pg'
