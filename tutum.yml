@@ -1,0 +1,11 @@
+web:
+  image: tutum.co/jphastings/iconic
+  autoredeploy: true
+  links:
+    - "postgres"
+  ports:
+    - "80"
+postgres:
+  image: tutum/postgresql
+  environment:
+    - POSTGRES_PASS
