@@ -12,3 +12,4 @@ gem 'rspec', :group => :test
 gem 'htmlentities'
 gem 'nokogiri'
 gem 'dotenv'
+gem 'bundler'
